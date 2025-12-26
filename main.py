@@ -1,7 +1,4 @@
-# ================================
 # Automatic Duplicate Question Detection
-# Fixed & Stable Version
-# ================================
 
 import pandas as pd
 import numpy as np
@@ -17,20 +14,13 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-# Download required NLTK data
 nltk.download('punkt')
 nltk.download('stopwords')
 
-# -------------------------------
-# PARAMETERS (SAFE FOR LAPTOP)
-# -------------------------------
-N1 = 100   # number of past questions
-N2 = 30    # number of duplicate questions
+N1 = 100   
+N2 = 30    
 NUM_TOPICS = 50
 
-# -------------------------------
-# PREPROCESSING FUNCTIONS
-# -------------------------------
 ps = PorterStemmer()
 stop_words = set(stopwords.words('english'))
 
@@ -41,15 +31,12 @@ def clean_text(text):
     tokens = [ps.stem(w) for w in tokens if w.isalpha() and w not in stop_words]
     return " ".join(tokens)
 
-# -------------------------------
-# LOAD DATASET
-# -------------------------------
+
 df = pd.read_csv("QueryResults.csv")
 
 past_df = df[['PastQuesTitle', 'PastQuesBody', 'PastQuesTags']].iloc[:N1]
 dup_df  = df[['DuplicateQuesTitle', 'DuplicateQuesBody', 'DuplicateQuesTags']].iloc[:N2]
 
-# Apply preprocessing
 for col in past_df.columns:
     past_df[col] = past_df[col].apply(clean_text)
 
@@ -58,9 +45,6 @@ for col in dup_df.columns:
 
 print("✔ Preprocessing completed")
 
-# -------------------------------
-# TF-IDF VECTOR REPRESENTATION
-# -------------------------------
 past_text = past_df['PastQuesTitle'] + " " + past_df['PastQuesBody']
 dup_text  = dup_df['DuplicateQuesTitle'] + " " + dup_df['DuplicateQuesBody']
 
@@ -72,9 +56,7 @@ tfidf_sim = cosine_similarity(tfidf_past, tfidf_dup)
 
 print("✔ TF-IDF similarity computed")
 
-# -------------------------------
-# LDA TOPIC MODELING
-# -------------------------------
+
 texts = [doc.split() for doc in past_text]
 dictionary = corpora.Dictionary(texts)
 corpus = [dictionary.doc2bow(text) for text in texts]
@@ -98,17 +80,12 @@ lda_sim = cosine_similarity(lda_past, lda_dup)
 
 print("✔ LDA similarity computed")
 
-# -------------------------------
-# FINAL SIMILARITY (WEIGHTED)
-# -------------------------------
-ALPHA = 0.7   # TF-IDF weight
-BETA  = 0.3   # LDA weight
+
+ALPHA = 0.7
+BETA  = 0.3
 
 final_similarity = ALPHA * tfidf_sim + BETA * lda_sim
 
-# -------------------------------
-# EVALUATION : Recall@K
-# -------------------------------
 def recall_at_k(sim_matrix, k):
     correct = 0
     for i in range(sim_matrix.shape[1]):
@@ -121,3 +98,4 @@ for k in [1, 5, 10]:
     print(f"Recall@{k}: {recall_at_k(final_similarity, k):.2f}")
 
 print("✔ Execution completed successfully")
+
