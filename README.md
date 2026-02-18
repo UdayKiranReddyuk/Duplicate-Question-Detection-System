@@ -1,7 +1,7 @@
 # Automatic Duplicate Question Detection (TF‑IDF + LDA)
 
 This project detects duplicate or semantically similar questions using a combination of TF‑IDF cosine similarity and LDA topic modelling on historical Q&A data. 
-It is designed to be lightweight and runnable on a typical laptop while still demonstrating core NLP concepts.
+It is designed to be lightweight and runnable on a typical laptop while still demonstrating core NLP concepts. 
 
 ---
 
