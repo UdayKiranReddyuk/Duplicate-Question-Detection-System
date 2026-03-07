@@ -8,7 +8,7 @@ from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from bs4 import BeautifulSoup
 from sklearn.feature_extraction.text import TfidfVectorizer 
-from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics.pairwise import cosine_similarity 
 import warnings
 
 warnings.filterwarnings("ignore")
@@ -97,6 +97,7 @@ for k in [1, 5, 10]:
     print(f"Recall@{k}: {recall_at_k(final_similarity, k):.2f}")
 
 print("✔ Execution completed successfully")
+
 
 
 
