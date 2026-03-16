@@ -2,7 +2,7 @@
 import pandas as pd
 import numpy as np
 import gensim
-import gensim.corpora as corpora 
+import gensim.corpora as corpora  
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
