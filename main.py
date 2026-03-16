@@ -7,7 +7,7 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from bs4 import BeautifulSoup
-from sklearn.feature_extraction.text import TfidfVectorizer  
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity 
 import warnings
 
